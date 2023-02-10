@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.pkaart.adapter.CategoryAdapter
 import com.example.pkaart.databinding.FragmentHomeBinding
-import com.example.pkaart.model.AddProductModel
 import com.example.pkaart.model.CategoryModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -29,7 +28,7 @@ class HomeFragment : Fragment() {
 
 
         getCategories()
-        getProducts()
+//        getProducts()
         return binding.root
     }
 
@@ -51,24 +50,8 @@ class HomeFragment : Fragment() {
             }
     }
 
-    private fun getProducts() {
-
-        val list = ArrayList<AddProductModel>()
-
-        Firebase.firestore.collection("products")
-            .get().addOnSuccessListener {
-                list.clear()
-
-                for (doc in it.documents) {
-                    val data = doc.toObject(AddProductModel::class.java)
-                    list.add(data!!)
-                }
-
-//                binding.categoryRecycler.adapter = CategoryAdapter(requireContext(),list)
-            }
 
     }
 
 
 
-}
