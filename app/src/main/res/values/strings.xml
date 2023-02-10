@@ -9,4 +9,7 @@
     <string name="cart_fragment">Cart Fragment</string>
     <string name="home_fragment">Home Fragment</string>
     <string name="dashboard_fragment">DashBoard Fragment</string>
+    <string name="see_all">See All</string>
+    <string name="shop_by_products">Shoap by Products</string>
+    <string name="shop_by_category">Shoap by catetegory</string>
 </resources>
