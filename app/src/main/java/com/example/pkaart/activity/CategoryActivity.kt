@@ -14,7 +14,7 @@ class CategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
 
-        getProducts(intent.getStringExtra("cat"))
+        getProducts(intent.getStringExtra("cate"))
     }
 
     private fun getProducts(category: String?) {

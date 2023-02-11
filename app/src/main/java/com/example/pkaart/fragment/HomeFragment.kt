@@ -62,10 +62,7 @@ class HomeFragment : Fragment() {
             }
     }
 
-
-
     private fun getCategories() {
-
         val list = ArrayList<CategoryModel>()
 
         Firebase.firestore.collection("Categories")
