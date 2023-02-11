@@ -26,7 +26,7 @@ class CategoryAdapter(var context: Context, val list: ArrayList<CategoryModel>) 
 
     override fun onBindViewHolder(holder: categoryViewHolder, position: Int) {
 
-        holder.binding.textCate.text = list[position].cat
+        holder.binding.textCate.text = list[position].cate
         Glide.with(context).load(list[position].img).into(holder.binding.imageView)
     }
 
