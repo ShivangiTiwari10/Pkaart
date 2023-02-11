@@ -5,24 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DFDCDC"
-    android:padding="24dp"
     android:orientation="vertical"
+    android:padding="24dp"
     tools:context=".fragment.HomeFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="190dp"
         app:cardCornerRadius="20dp"
-        app:cardElevation="10sp"
-        >
+        app:cardElevation="10sp">
 
         <ImageView
             android:id="@+id/sliderImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/see_all"
             android:scaleType="centerCrop"
-            android:src="@drawable/laptop"
-            android:contentDescription="@string/see_all" />
+            android:src="@drawable/laptop" />
 
 
     </com.google.android.material.card.MaterialCardView>
@@ -30,28 +39,26 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        >
+        android:layout_marginTop="36dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif"
             android:text="@string/shop_by_category"
-            android:textStyle="bold"
             android:textColor="#223712"
-            android:fontFamily="serif"
             android:textSize="18sp"
-           />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/see_all"
-            android:textStyle="normal"
-            android:textColor="#2C2215"
-            android:fontFamily="serif"
-            android:textSize="16sp"
             android:layout_alignParentEnd="true"
+            android:fontFamily="serif"
+            android:text="@string/see_all"
+            android:textColor="#2C2215"
+            android:textSize="16sp"
+            android:textStyle="normal"
             tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
@@ -69,39 +76,41 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        >
+        android:layout_marginTop="36dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif"
             android:text="@string/shop_by_products"
-            android:textStyle="bold"
             android:textColor="#223712"
-            android:fontFamily="serif"
             android:textSize="18sp"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/see_all"
-            android:textStyle="normal"
-            android:textColor="#2C2215"
-            android:fontFamily="serif"
-            android:textSize="16sp"
             android:layout_alignParentEnd="true"
+            android:fontFamily="serif"
+            android:text="@string/see_all"
+            android:textColor="#2C2215"
+            android:textSize="16sp"
+            android:textStyle="normal"
             tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productRecycler"
-        android:layout_marginTop="12dp"
-        tools:listitem="@layout/layout_product_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_marginTop="12dp"
+        android:nestedScrollingEnabled="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/layout_product_item" />
 
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
