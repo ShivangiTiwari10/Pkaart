@@ -22,6 +22,7 @@ class ProductDetailActivity : AppCompatActivity() {
         getProductDetails(intent.getStringExtra("id"))
         setContentView(binding.root)
     }
+
     @Suppress("UNCHECKED_CAST")
     private fun getProductDetails(proId: String?) {
 
@@ -29,15 +30,21 @@ class ProductDetailActivity : AppCompatActivity() {
             .document(proId!!).get().addOnSuccessListener {
                 val list = it.get("productImages") as ArrayList<String>
 
-                binding.textTitle.text = it.getString("productName")
-                binding.textPrice.text = it.getString("productSp")
-                binding.textView8.text = it.getString("productDescription")
+
+                val name = it.getString("productName")
+                val sP = it.getString("productSp")
+                val productDisc = it.getString("productDescription")
+
+                binding.textTitle.text = name
+                binding.textPrice.text = sP
+                binding.textView8.text = productDisc
 
                 val slideList = ArrayList<SlideModel>()
                 for (data in list) {
 
                     slideList.add(SlideModel(data, ScaleTypes.CENTER_CROP))
                 }
+
                 binding.imageSlider.setImageList(slideList)
 
             }.addOnFailureListener {
@@ -46,4 +53,6 @@ class ProductDetailActivity : AppCompatActivity() {
             }
 
     }
+
+
 }
