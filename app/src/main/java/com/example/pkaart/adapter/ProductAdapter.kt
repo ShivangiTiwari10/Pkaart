@@ -1,10 +1,12 @@
 package com.example.pkaart.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.pkaart.activity.ProductDetailActivity
 import com.example.pkaart.databinding.LayoutProductItemBinding
 import com.example.pkaart.model.AddProductModel
 
@@ -28,6 +30,16 @@ class ProductAdapter(val context: Context, val list: ArrayList<AddProductModel>)
         holder.binding.textView4.text = data.productMrp
 
         holder.binding.buttonA.text = data.productSp
+
+        holder.itemView.setOnClickListener {
+
+            val intent = Intent(context, ProductDetailActivity::class.java)
+            intent.putExtra("id", list[position].productId)
+
+            context.startActivity(intent)
+
+        }
+
     }
 
     override fun getItemCount(): Int {
