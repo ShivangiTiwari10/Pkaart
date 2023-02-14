@@ -5,18 +5,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pkaart.R
+import androidx.appcompat.app.AppCompatActivity
+import com.example.pkaart.databinding.FragmentCardBinding
 
 
 class CardFragment : Fragment() {
+
+    private lateinit var binding: FragmentCardBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_card, container, false)
+        binding = FragmentCardBinding.inflate(layoutInflater)
+
+        val preferancece = requireContext().getSharedPreferences("info", AppCompatActivity.MODE_PRIVATE)
+        val editor = preferancece.edit()
+        editor.putBoolean("isCart", false)
+        editor.apply()
+
+        return (binding.root)
     }
 
 
