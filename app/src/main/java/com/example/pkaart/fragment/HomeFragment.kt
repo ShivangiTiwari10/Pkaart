@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.pkaart.R
 import com.example.pkaart.adapter.CategoryAdapter
 import com.example.pkaart.adapter.ProductAdapter
 import com.example.pkaart.databinding.FragmentHomeBinding
@@ -27,6 +30,11 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
+        val preferancece = requireContext().getSharedPreferences("info", AppCompatActivity.MODE_PRIVATE)
+
+        if (preferancece.getBoolean("isCart",false))
+        findNavController().navigate(R.id.action_homeFragment_to_cardFragment)
 
 
         getCategories()
@@ -58,7 +66,7 @@ class HomeFragment : Fragment() {
                     list.add(data!!)
                 }
 
-                binding.productRecycler.adapter =ProductAdapter(requireContext(),list)
+                binding.productRecycler.adapter = ProductAdapter(requireContext(), list)
             }
     }
 
@@ -74,7 +82,7 @@ class HomeFragment : Fragment() {
                     list.add(data!!)
                 }
 
-                binding.categoryRecycler.adapter = CategoryAdapter(requireContext(),list)
+                binding.categoryRecycler.adapter = CategoryAdapter(requireContext(), list)
             }
     }
 }
