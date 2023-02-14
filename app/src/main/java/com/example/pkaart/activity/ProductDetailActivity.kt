@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.denzcoskun.imageslider.constants.ScaleTypes
@@ -41,11 +42,11 @@ class ProductDetailActivity : AppCompatActivity() {
 
 
                 val name = it.getString("productName")
-                val sP = it.getString("productSp")
+                val productSp = it.getString("productSp")
                 val productDisc = it.getString("productDescription")
 
                 binding.textTitle.text = name
-                binding.textPrice.text = sP
+                binding.textPrice.text = productSp
                 binding.textView8.text = productDisc
 
                 val slideList = ArrayList<SlideModel>()
@@ -54,7 +55,9 @@ class ProductDetailActivity : AppCompatActivity() {
                     slideList.add(SlideModel(data, ScaleTypes.CENTER_CROP))
                 }
 
-                cartAction(proId, name, sP, it.getString("productCoverImg"))
+                cartAction(proId, name, productSp, it.getString("productCoverImg"))
+
+                Log.d("cartAction","$list")
 
                 binding.imageSlider.setImageList(slideList)
 
@@ -66,16 +69,29 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun cartAction(proId: String, name: String?, sP: String?, coverImg: String?) {
+    private fun cartAction(proId: String, name: String?, productSp: String?, coverImg: String?) {
+
 
         val productDao = AppDataBase.getInstance(this).productDao()
+
+        Log.d("ProductDao","$productDao")
+
         if (productDao.isExist(proId) != null) {
             binding.textAdd.text = "Go to Cart"
+
+            Log.d("coverImg","$coverImg")
         } else {
+
             binding.textAdd.text = "Add to Cart"
         }
+
+
         binding.textAdd.setOnClickListener {
-            openCart()
+            if (productDao.isExist(proId) != null) {
+                openCart()
+            } else {
+                addToCart(productDao,proId, name, productSp, coverImg)
+            }
         }
 
     }
@@ -85,17 +101,16 @@ class ProductDetailActivity : AppCompatActivity() {
         productDao: ProductDao,
         proId: String,
         name: String?,
-        sP: String?,
+        productSp: String?,
         coverImg: String?
     ) {
 
-        val data = ProductModel(proId, name, coverImg, sP)
+        val data = ProductModel(proId, name, coverImg, productSp)
         lifecycleScope.launch(Dispatchers.IO){
             productDao.insertProduct(data)
-            binding.textAdd.text = "Add to Cart"
+            binding.textAdd.text = "Go to Cart"
 
         }
-
     }
 
     private fun openCart() {
@@ -108,6 +123,4 @@ class ProductDetailActivity : AppCompatActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
-
-
 }
