@@ -19,4 +19,7 @@
     <string name="tittle">Tittle</string>
     <string name="prise">Prise</string>
     <string name="add_to_cart">Add To Cart</string>
+    <string name="total_cost_">Total Cost:2000</string>
+    <string name="checkout">Checkout</string>
+    <string name="total_item_in_cart_is_10">Total Item In Cart Is 10</string>
 </resources>
