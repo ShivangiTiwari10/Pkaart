@@ -52,11 +52,13 @@ class RegisterActivity : AppCompatActivity() {
         Firebase.firestore.collection("users").document(binding.userNumber.text.toString())
             .set(data).addOnSuccessListener {
                 Toast.makeText(this, "User Register", Toast.LENGTH_SHORT).show()
-
+                builder.dismiss()
                 openLogin()
 
             }
             .addOnFailureListener {
+                builder.dismiss()
+
                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
 
