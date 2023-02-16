@@ -24,5 +24,10 @@
     <string name="total_item_in_cart_is_10">Total Item In Cart Is 10</string>
     <string name="phone_number">Phone Number</string>
     <string name="signin">SIGNIN</string>
-    <string name="signup">SIGNUP</string>
+    <string name="signup">signup</string>
+    <string name="name">Name</string>
+    <string name="login">Login</string>
+    <string name="verify_otp">Verify otp</string>
+    <string name="otp">OTP</string>
+    <string name="sign_in">sign in</string>
 </resources>
