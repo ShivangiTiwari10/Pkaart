@@ -22,4 +22,7 @@
     <string name="total_cost_">Total Cost:2000</string>
     <string name="checkout">Checkout</string>
     <string name="total_item_in_cart_is_10">Total Item In Cart Is 10</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="signin">SIGNIN</string>
+    <string name="signup">SIGNUP</string>
 </resources>
