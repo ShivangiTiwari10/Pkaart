@@ -32,7 +32,8 @@ class RegisterActivity : AppCompatActivity() {
 
         if (binding.userName.text!!.isEmpty() || binding.userNumber.text!!.isEmpty())
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
-        else storeData()
+        else
+            storeData()
     }
 
     private fun storeData() {
@@ -51,7 +52,7 @@ class RegisterActivity : AppCompatActivity() {
 
         Firebase.firestore.collection("users").document(binding.userNumber.text.toString())
             .set(data).addOnSuccessListener {
-                Toast.makeText(this, "User Register", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "User Registered", Toast.LENGTH_SHORT).show()
                 builder.dismiss()
                 openLogin()
 

@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -21,19 +22,21 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.button2.setOnClickListener {
-            startActivity(Intent(this,RegisterActivity::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         }
+
         binding.button.setOnClickListener {
             if (binding.userNumber.text!!.isEmpty())
-                Toast.makeText(this,"Please Provide Number",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please Provide Number", Toast.LENGTH_SHORT).show()
             else
                 sendOtp(binding.userNumber.text.toString())
         }
     }
 
 
-    private lateinit var builder:AlertDialog
+    private lateinit var builder: AlertDialog
+
     private fun sendOtp(number: String) {
         builder = AlertDialog.Builder(this)
             .setTitle("Loading...")
@@ -42,10 +45,8 @@ class LoginActivity : AppCompatActivity() {
             .create()
 
         builder.show()
-
-
         val options = PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())
-            .setPhoneNumber(number)       // Phone number to verify
+            .setPhoneNumber("+91$number")       // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(this)                 // Activity (for callback binding)
             .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
@@ -54,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-   val  callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
 
@@ -69,9 +70,9 @@ class LoginActivity : AppCompatActivity() {
             token: PhoneAuthProvider.ForceResendingToken
         ) {
             builder.dismiss()
-            val intent = Intent(this@LoginActivity,OTPActivity::class.java)
-            intent.putExtra("verificationId",verificationId)
-            intent.putExtra("number",binding.userNumber.text.toString())
+            val intent = Intent(this@LoginActivity, OTPActivity::class.java)
+            intent.putExtra("verificationId", verificationId)
+            intent.putExtra("number", binding.userNumber.text.toString())
             startActivity(intent)
         }
     }

@@ -1,10 +1,13 @@
 package com.example.pkaart
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.PopupMenu
 import androidx.navigation.fragment.findNavController
+import com.example.pkaart.activity.LoginActivity
 import com.example.pkaart.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +18,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
