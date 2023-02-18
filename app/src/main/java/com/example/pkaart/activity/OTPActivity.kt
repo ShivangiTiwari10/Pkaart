@@ -44,6 +44,13 @@ class OTPActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
+                    val preferances = this.getSharedPreferences("user", MODE_PRIVATE)
+                    val editor = preferances.edit()
+
+                    editor.putString("number", intent.getStringExtra("number")!!)
+                    editor.apply()
+
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
 

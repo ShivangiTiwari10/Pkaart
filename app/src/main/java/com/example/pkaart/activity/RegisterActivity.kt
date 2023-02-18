@@ -46,8 +46,18 @@ class RegisterActivity : AppCompatActivity() {
 
         builder.show()
 
+        val preferances = this.getSharedPreferences("user", MODE_PRIVATE)
+        val editor = preferances.edit()
 
-        val data = UserModel(userName = binding.userName.text.toString(),userPhoneNumber = binding.userNumber.text.toString())
+        editor.putString("number", binding.userNumber.text.toString())
+        editor.putString("name", binding.userName.text.toString())
+        editor.apply()
+
+
+        val data = UserModel(
+            userName = binding.userName.text.toString(),
+            userPhoneNumber = binding.userNumber.text.toString()
+        )
 
         Firebase.firestore.collection("users").document(binding.userNumber.text.toString())
             .set(data).addOnSuccessListener {
@@ -65,7 +75,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun openLogin() {
-
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
