@@ -18,6 +18,7 @@ import com.example.pkaart.roomDb.ProductModel
 class CardFragment : Fragment() {
 
     private lateinit var binding: FragmentCardBinding
+    private lateinit var list: ArrayList<String>
 
 
     override fun onCreateView(
@@ -35,8 +36,15 @@ class CardFragment : Fragment() {
 
         val dao = AppDataBase.getInstance(requireContext()).productDao()
 
+        list = ArrayList()
+
         dao.getAllProducts().observe(requireActivity()) {
             binding.cartRecyclerView.adapter = cartAdapter(requireContext(), it)
+
+            list.clear()
+            for (data in it) {
+                list.add(data.productId)
+            }
 
             totalCost(it)
         }
@@ -57,6 +65,7 @@ class CardFragment : Fragment() {
         binding.checkOut.setOnClickListener {
             val intent = Intent(context, AddressActivity::class.java)
             intent.putExtra("totalCost", total)
+            intent.putExtra("productIds",list)
             startActivity(intent)
 
         }

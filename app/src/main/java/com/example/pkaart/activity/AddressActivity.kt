@@ -71,8 +71,11 @@ class AddressActivity : AppCompatActivity() {
             .document(preferances.getString("number", "ABCD")!!)
 
             .update(map).addOnSuccessListener {
-                startActivity(Intent(this, CheckoutActivity::class.java))
-                finish()
+
+                val intent = Intent(this, CheckoutActivity::class.java)
+                intent.putExtra("productIds", intent.getStringArrayExtra("productIds"))
+                startActivity(intent)
+
 
             }
             .addOnFailureListener {
