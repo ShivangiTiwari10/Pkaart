@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.pkaart.databinding.ActivityAddressBinding
 import com.google.firebase.firestore.ktx.firestore
@@ -15,7 +16,7 @@ class AddressActivity : AppCompatActivity() {
 
     private lateinit var preferances: SharedPreferences
 
-    private lateinit var totalCost:String
+    private lateinit var totalCost : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,10 +76,22 @@ class AddressActivity : AppCompatActivity() {
             .document(preferances.getString("number", "ABCD")!!)
 
             .update(map).addOnSuccessListener {
+                val b = Bundle()
+
+
+                Log.d("Bundale", "$b")
+                b.putStringArrayList("productIds", intent.getStringArrayListExtra("productIds"))
+
+                Log.d("PutString", "$pinCode")
+
+                b.putString("totalCost", totalCost)
+
+                Log.d("totalCost", totalCost)
+
 
                 val intent = Intent(this, CheckoutActivity::class.java)
-                intent.putExtra("productIds", intent.getStringArrayExtra("productIds"))
-                intent.putExtra("totalCost",totalCost)
+                intent.putExtras(b)
+
                 startActivity(intent)
 
 

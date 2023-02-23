@@ -27,6 +27,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         checkout.setKeyID("rzp_test_yz21RD9mwEV4GD")
 
         val price = intent.getStringExtra("totalCost")
+        Log.d("Price", "$price")
 
         try {
             val options = JSONObject()
@@ -38,18 +39,20 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             options.put("currency", "INR")
 
             if (price != null) {
-                options.put("amount", price.toInt()*100)
+                options.put("amount", price.toInt() * 100)
             }//pass amount in currency subunits
 
             options.put("prefill.email", "deepanshutiwari191@gmail.com")
-            options.put("prefill.contact", "8269390991")
+            options.put("prefill.contact", "7067665199")
+
+            Log.d("CheckOut","$checkout")
 
             checkout.open(this, options)
         } catch (e: Exception) {
-            Log.d("PriceAll","$price")
-            Log.d("Options","$checkout")
+            Log.d("PriceAll", "$price")
+            Log.d("Options", "$checkout")
 
-            Log.d("Exception","${e}")
+            Log.d("Exception", "${e}")
             Toast.makeText(this, "Something went wrong 3", Toast.LENGTH_SHORT).show()
         }
     }
@@ -64,7 +67,9 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
     private fun uploadData() {
 
-        val id = intent.getStringArrayExtra("productIds")
+        val id = intent.getStringArrayListExtra("productIds")
+
+        Log.d("Id","$id")
 
         for (currentId in id!!) {
             fetchData(currentId)
@@ -80,8 +85,8 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         Firebase.firestore.collection("products")
             .document(productId!!).get().addOnSuccessListener {
 
-                lifecycleScope.launch(Dispatchers.IO){
-                    dao.deleteProduct(ProductModel(productId,"","",""))
+                lifecycleScope.launch(Dispatchers.IO) {
+                    dao.deleteProduct(ProductModel(productId, "", "", ""))
                 }
                 saveData(
                     it.getString("productName"),
