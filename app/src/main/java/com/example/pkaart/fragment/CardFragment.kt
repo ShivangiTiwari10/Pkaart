@@ -64,7 +64,7 @@ class CardFragment : Fragment() {
 
         binding.checkOut.setOnClickListener {
             val intent = Intent(context, AddressActivity::class.java)
-            intent.putExtra("totalCost", total)
+            intent.putExtra("totalCost", total.toString())
             intent.putExtra("productIds",list)
             startActivity(intent)
 

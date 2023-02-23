@@ -15,6 +15,8 @@ class AddressActivity : AppCompatActivity() {
 
     private lateinit var preferances: SharedPreferences
 
+    private lateinit var totalCost:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,8 @@ class AddressActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         preferances = this.getSharedPreferences("user", MODE_PRIVATE)
+        totalCost = intent.getStringExtra("totalCost")!!
+
         loadUserInfo()
 
         binding.btnProceed.setOnClickListener {
@@ -74,12 +78,13 @@ class AddressActivity : AppCompatActivity() {
 
                 val intent = Intent(this, CheckoutActivity::class.java)
                 intent.putExtra("productIds", intent.getStringArrayExtra("productIds"))
+                intent.putExtra("totalCost",totalCost)
                 startActivity(intent)
 
 
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Something went wrong1", Toast.LENGTH_SHORT).show()
             }
     }
 

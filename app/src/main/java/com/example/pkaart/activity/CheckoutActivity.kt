@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.pkaart.MainActivity
 import com.example.pkaart.R
+import com.example.pkaart.roomDb.AppDataBase
+import com.example.pkaart.roomDb.ProductModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
@@ -21,6 +26,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         val checkout = Checkout()
         checkout.setKeyID("rzp_test_yz21RD9mwEV4GD")
 
+        val price = intent.getStringExtra("totalCost")
 
         try {
             val options = JSONObject()
@@ -29,14 +35,22 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             options.put("description", "Best Ecommerce app")
             options.put("image", "https://i.pravatar.cc/300")
             options.put("theme.color", "#8F42BE")
-            options.put("currency", "INR");
-            options.put("amount", "50000");//pass amount in currency subunits
+            options.put("currency", "INR")
+
+            if (price != null) {
+                options.put("amount", price.toInt()*100)
+            }//pass amount in currency subunits
+
             options.put("prefill.email", "deepanshutiwari191@gmail.com")
             options.put("prefill.contact", "8269390991")
 
             checkout.open(this, options)
         } catch (e: Exception) {
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+            Log.d("PriceAll","$price")
+            Log.d("Options","$checkout")
+
+            Log.d("Exception","${e}")
+            Toast.makeText(this, "Something went wrong 3", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -49,6 +63,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     private fun uploadData() {
+
         val id = intent.getStringArrayExtra("productIds")
 
         for (currentId in id!!) {
@@ -59,8 +74,15 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
     private fun fetchData(productId: String?) {
 
+        val dao = AppDataBase.getInstance(this).productDao()
+
+
         Firebase.firestore.collection("products")
             .document(productId!!).get().addOnSuccessListener {
+
+                lifecycleScope.launch(Dispatchers.IO){
+                    dao.deleteProduct(ProductModel(productId,"","",""))
+                }
                 saveData(
                     it.getString("productName"),
                     it.getString("productSp"),
@@ -70,17 +92,17 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     private fun saveData(name: String?, price: String?, productId: String) {
+        val preferances = this.getSharedPreferences("user", MODE_PRIVATE)
 
-        val preferences = this.getSharedPreferences("user", MODE_PRIVATE)
         val data = hashMapOf<String, Any>()
 
         data["name"] = name!!
         data["price"] = price!!
         data["productId"] = productId
         data["status"] = "Ordered"
-        data["userId"] = preferences.getString("number", "93..")!!
+        data["userId"] = preferances.getString("number", "")!!
 
-        val fireStore = Firebase.firestore.collection("AllOrders")
+        val fireStore = Firebase.firestore.collection("allOrder")
         val key = fireStore.document().id
 
         data["orderId"] = key
@@ -91,7 +113,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             finish()
 
         }.addOnFailureListener {
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Something went wrong 2", Toast.LENGTH_SHORT).show()
         }
     }
 
