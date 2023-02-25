@@ -5,10 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pkaart.R
+import androidx.appcompat.app.AppCompatActivity
+import com.example.pkaart.adapter.AllOrderAdaapter
+import com.example.pkaart.databinding.FragmentMoreBinding
+import com.example.pkaart.model.AllOrderModel
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class MoreFragment : Fragment() {
+
+    private lateinit var binding: FragmentMoreBinding
+    private lateinit var list: ArrayList<AllOrderModel>
 
 
     override fun onCreateView(
@@ -16,8 +24,29 @@ class MoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_more, container, false)
-    }
+        binding = FragmentMoreBinding.inflate(layoutInflater)
 
+        list = ArrayList()
+
+        val preferances =
+            requireContext().getSharedPreferences("user", AppCompatActivity.MODE_PRIVATE)
+
+        Firebase.firestore.collection("allOrder")
+            .whereEqualTo("userId", preferances.getString("number", "")!!).get()
+            .addOnSuccessListener {
+
+
+                list.clear()
+
+                for (doc in it) {
+                    val data = doc.toObject(AllOrderModel::class.java)
+                    list.add(data)
+                }
+                binding.recyclerView.adapter = AllOrderAdaapter(list, requireContext())
+
+            }
+        return binding.root
+
+    }
 
 }

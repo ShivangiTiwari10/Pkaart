@@ -37,4 +37,7 @@
     <string name="city">City</string>
     <string name="village">Village</string>
     <string name="user_number">User Number</string>
+    <string name="delevered">Delevered</string>
+    <string name="product_name">Product Name</string>
+    <string name="price_1200rs">Price : 1200rs</string>
 </resources>
