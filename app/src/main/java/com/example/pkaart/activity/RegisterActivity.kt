@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import com.example.pkaart.databinding.ActivityRegisterBinding
 import com.example.pkaart.model.UserModel
 import com.google.firebase.firestore.ktx.firestore
@@ -38,7 +37,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun storeData() {
-        val builder = AlertDialog.Builder(this)
+        val builder = android.app.AlertDialog.Builder(this)
             .setTitle("Loading...")
             .setMessage("Please Wait..")
             .setCancelable(false)
